@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curise Booking</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
+    rel="stylesheet">
+
+    <!-- Link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--Header and Menu Section-->
+    <header class="container">
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+                <li><a class="active" href="#">Sign Up</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--Booking Section-->
+    <main class="main-content container">
+
+        <div class="booking-content">
+            <h1>Cruise Queen</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book./p>
+        </div>
+
+        <div class="booking-form">
+            <form action="" id="form_text" name="bookingForm">
+                <h3>Book Ocean Time</h3>
+                <span id="warningMessage"></span>
+                <div class="input-group">
+                    <label for="">Flying From</label>
+                    <input class="inp-style" type="text" placeholder="Dhake, Bangladesh" required>
+                </div>
+                <div class="input-group">
+                    <label for="">Flying To</label>
+                    <input class="inp-style" type="text" name="" placeholder="New York, United States" required>
+                </div>
+                <div class="inputs">
+                    <div class="input-group">
+                        <label" for="">Departure</label>
+                        <input class="inp-style" type="date" name="" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="">Return</label>
+                        <input class="inp-style" type="date" name="" required>
+                    </div>
+                </div>
+                <div class="input-group f-class">
+                    <div>
+                        <label for="">First Class ($150)</label>
+                        <input id="firstClass-ticket-quantity" class="inp-style inp-width" value="1" name="">
+                    </div>
+                    <div class="plus-minus-btn">
+                        <button type="button" onclick="ticketCounter('firstClass', true)" class="btn"><i class="fas fa-plus"></i></button>
+                        <button type="button" onclick="ticketCounter('firstClass', false)" class="btn"><i class="fas fa-minus"></i></button>
+                    </div>
+                </div>
+                    
+                <div class="input-group f-class">
+                    <div>
+                        <label for="">Economy ($100)</label>
+                        <input id="economy-ticket-quantity" class="inp-style inp-width" value="1" name="">
+                    </div>
+                    <div class="plus-minus-btn">
+                        <button type="button" onclick="ticketCounter('economy', true)" class="btn"><i class="fas fa-plus"></i></button>
+                        <button type="button" onclick="ticketCounter('economy', false)" class="btn"><i class="fas fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="calculations">
+                    <div class="amount">
+                        <div class="left">
+                            <h5>Subtotal</h5>
+                        </div>
+                        <div class="right">
+                            <h5 id="ticket-price">$250</h5>
+                        </div>
+                    </div>
+        
+                    <div class="amount">
+                        <div class="left">
+                            <h5>Charge 10% VAT</h5>
+                        </div>
+                        <div class="right">
+                            <h5 id="vat">$25</h5>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="amount">
+                        <div class="left">
+                            <h4>Total</h4>
+                        </div>
+                        <div class="right">
+                            <h5 id="total-price">$275</h5>
+                        </div>
+                    </div>
+                </div>
+                <div id="warning"></div>
+                <h5 id="warning-text" style="color: red; display: none;">* Please book a Ticket</h5>
+                <button type="submit" id="booking-btn" style="cursor: pointer;" class="btn-style">Book Now</button>
+            </form>
+            <div id="confirmation" class="booking-confirmation">
+                <H1 style="padding-bottom: 40px;">Congratulations! We have received your booking.</H1>
+                <h3>Thank you for traveling with CRUISE QUEEN</h3>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function ticketCounter(ticketType, isIncrese){
+            const convertQuantity = convertInput(ticketType + "-ticket-quantity");
+
+            let totalTicket = convertQuantity;
+            if(isIncrese == true){
+                totalTicket = convertQuantity + 1;
+            }
+            if(isIncrese == false && convertQuantity > 0){
+                totalTicket = convertQuantity - 1;
+            }
+            document.getElementById(ticketType + "-ticket-quantity").value = totalTicket;
+            subTotal()
+        }
+
+        function subTotal(){
+            const firstClassConvert = convertInput("firstClass-ticket-quantity");
+            const EconomyConvert = convertInput("economy-ticket-quantity");
+
+            const ticketPrice = firstClassConvert * 150 + EconomyConvert * 100;
+            document.getElementById("ticket-price").innerText = '$' + ticketPrice;
+
+            const totalVat = Math.round(ticketPrice * 0.1);
+            document.getElementById("vat").innerText = '$' + totalVat;
+
+            const totalPrice = ticketPrice + totalVat;
+            document.getElementById("total-price").innerText = '$' + totalPrice;
+        }
+
+        function convertInput(id){
+            const ticketQuantity = document.getElementById(id);
+            const ticketConvert = parseInt(ticketQuantity.value);
+            return ticketConvert;
+        }
+        document.getElementById("booking-btn").addEventListener("click", function(){
+            const formText = document.getElementById("form_text");
+            formText.style.display = 'none';
+            const confirmText = document.getElementById("confirmation");
+            confirmText.style.display = "block"
+                
+        })
+        // function formValidation(){
+        //     const flyingForm = document.bookingForm.flyingForm;
+        //     const flyingForm = document.bookingForm.flyingForm;
+
+        //     const formText = document.getElementById("form_text");
+        //     const confirmText = document.getElementById("confirmation");
+
+        //     if(flyingForm.value == ''){
+        //         alert("You must fullfil your flying location");
+        //         flyingForm.focus();
+        //         return false;
+        //     } else if(){
+
+        //     }
+        //     else{
+        //         formText.style.display = 'none';
+        //         confirmText.style.display = "block"
+        //     }
+        //     return false;
+        // }
+
+        
+        // const priceCompare = document.getElementById("total-price");
+        //     const convertTotal = parseInt(priceCompare.innerText);
+            
+        //     const warningText = document.getElementById("warning-text");
+        //     if(convertTotal < 100){
+        //         warningText.style.display = "block";
+        //     } else{
+        //         const formText = document.getElementById("form_text");
+        //         formText.style.display = 'none';
+        //         const confirmText = document.getElementById("confirmation");
+        //         confirmText.style.display = "block"
+        //     }
+    </script>
+</body>
+
+</html>
