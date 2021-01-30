@@ -40,7 +40,7 @@
         </div>
 
         <div class="booking-form">
-            <form action="" id="form_text" name="bookingForm">
+            <form action="" onsubmit="" id="form_text" name="bookingForm">
                 <h3>Book Ocean Time</h3>
                 <span id="warningMessage"></span>
                 <div class="input-group">
@@ -106,7 +106,7 @@
                             <h4>Total</h4>
                         </div>
                         <div class="right">
-                            <h5 id="total-price">$275</h5>
+                            <h5>$<span id="total-price">275</span> </h5>
                         </div>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
             document.getElementById("vat").innerText = '$' + totalVat;
 
             const totalPrice = ticketPrice + totalVat;
-            document.getElementById("total-price").innerText = '$' + totalPrice;
+            document.getElementById("total-price").innerText = + totalPrice;
         }
 
         function convertInput(id){
@@ -155,47 +155,26 @@
             const ticketConvert = parseInt(ticketQuantity.value);
             return ticketConvert;
         }
-        document.getElementById("booking-btn").addEventListener("click", function(){
-            const formText = document.getElementById("form_text");
-            formText.style.display = 'none';
-            const confirmText = document.getElementById("confirmation");
-            confirmText.style.display = "block"
-                
-        })
-        // function formValidation(){
-        //     const flyingForm = document.bookingForm.flyingForm;
-        //     const flyingForm = document.bookingForm.flyingForm;
-
-        //     const formText = document.getElementById("form_text");
-        //     const confirmText = document.getElementById("confirmation");
-
-        //     if(flyingForm.value == ''){
-        //         alert("You must fullfil your flying location");
-        //         flyingForm.focus();
-        //         return false;
-        //     } else if(){
-
-        //     }
-        //     else{
-        //         formText.style.display = 'none';
-        //         confirmText.style.display = "block"
-        //     }
-        //     return false;
-        // }
-
-        
-        // const priceCompare = document.getElementById("total-price");
-        //     const convertTotal = parseInt(priceCompare.innerText);
+        document.getElementById("form_text").addEventListener("submit", function(event){
             
-        //     const warningText = document.getElementById("warning-text");
-        //     if(convertTotal < 100){
-        //         warningText.style.display = "block";
-        //     } else{
-        //         const formText = document.getElementById("form_text");
-        //         formText.style.display = 'none';
-        //         const confirmText = document.getElementById("confirmation");
-        //         confirmText.style.display = "block"
-        //     }
+            const formText = document.getElementById("form_text");
+            const confirmText = document.getElementById("confirmation");
+
+            const totalPrice = document.getElementById("total-price");
+            const convertTotalPrice = parseInt(totalPrice.innerText);
+            
+            const warningText = document.getElementById("warning-text");
+
+            if(convertTotalPrice < 100){
+                warningText.style.display = "block";
+                console.log("Clicked");
+                event.preventDefault();
+            } else{
+                formText.style.display = 'none';
+                confirmText.style.display = "block";
+            }
+            event.preventDefault();
+        })
     </script>
 </body>
 
